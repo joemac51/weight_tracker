@@ -26,7 +26,7 @@ class tracker:
             contents_list_y = [float(i.rstrip('kg')) for i in contents_list if i.endswith('kg')]
             # remove semicolon from dates
             contents_list_x = [i.rstrip(':') for i in contents_list if str(i).endswith(':')]
-            sns.barplot(contents_list_x, contents_list_y)
+            sns.lineplot(contents_list_x, contents_list_y, markers=True)
             plt.show()
 
 if __name__=="__main__":
