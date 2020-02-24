@@ -1,3 +1,0 @@
-Input your current weight √
-The program logs the weight and current date √
-Display a graph of previous weights √
