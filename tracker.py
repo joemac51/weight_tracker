@@ -5,7 +5,7 @@ import json
 import os
 
 class tracker:
-    '''Weight tracker class'''
+    '''A class for tracking body weight'''
 
     UNITS = 'kg'
     JSON_PATH = "/Users/daniel/Documents/Python/weight_tracker/weight_log.json"
@@ -16,21 +16,29 @@ class tracker:
         self.data = []
         if os.path.exists(self.JSON_PATH) and os.path.getsize(self.JSON_PATH) != 0:
             with open(self.JSON_PATH, 'r') as f:
-                self.data = json.load(f)
+                self.data = json.load(f) # List of dictionaries containing dates and corresponding weights
         else:
             with open(self.JSON_PATH, 'w') as f: # create the json file if it doesn't exist (or is empty)
                 json.dump(self.data, f)
         if not kg:
             self.UNITS = 'lbs'
 
-    def log_weight(self, weight):
-        self.weight = weight
+    def set_weight(self):
+        while True:
+            try:
+                self.weight = float(input("Enter Weight: "))
+                break
+            except:
+                print("Please enter a valid number!")
+        return self.weight
+    
+    def log_weight(self):
         if self.data[len(self.data)-1]["Date"] == date.today().strftime("%d/%m/%Y"):
-            self.data[len(self.data)-1]["Weight"] = self.weight
+            self.data[len(self.data)-1]["Weight"] = self.set_weight()
         else:
             self.data.append({
                 "Date": date.today().strftime("%d/%m/%Y"),
-                "Weight": self.weight
+                "Weight": self.set_weight()
                 })
         with open(self.JSON_PATH, 'w') as f:
             json.dump(self.data, f)
@@ -45,5 +53,5 @@ class tracker:
 
 if __name__=="__main__":
     weight_tracker = tracker()
-    weight_tracker.log_weight(77.7)
+    weight_tracker.log_weight()
     weight_tracker.plot_weight()
